@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    <h1>Movie Recommendation System</h1>
+</header>
+
+<div class="container">
+    <h2>Search for Movies</h2>
+    <form action="/search" method="POST">
+        <label for="genre">Select Genre:</label>
+        <select id="genre" name="genre">
+            <option value="">--All Genres--</option>
+            {% for genre in genres %}
+            <option value="{{ genre }}">{{ genre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="rating">Minimum Rating:</label>
+        <input type="number" step="0.1" id="rating" name="rating" min="0" max="5" placeholder="e.g., 3.5">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Popular Movies by Genre</h2>
+    <div class="movie-grid">
+        {% for genre, movie in popular_movies.items() %}
+        <div class="movie-card">
+            <a href="{{ movie.imdb_link }}" target="_blank" style="text-decoration: none; color: inherit;">
+                <img src="{{ movie.poster_url or url_for('static', filename='images/default.png') }}" alt="Poster">
+                <h4>{{ movie.title }}</h4>
+                <p>{{ genre }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
